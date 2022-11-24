@@ -20,6 +20,7 @@ async function run() {
         const usersCollection = client.db('usecarmarket').collection('users')
         const categoriesCollection = client.db('usecarmarket').collection('categories')
         const categoryCollection = client.db('usecarmarket').collection('category')
+        const bookingsCollection = client.db('usecarmarket').collection('bookings')
 
         //get categories
         app.get('/categories', async(req, res) => {
@@ -28,7 +29,7 @@ async function run() {
             res.send(categories);
         })
 
-
+        //all category
         app.get('/category', async(req, res) => {
           const query = {};
           const category = await categoryCollection.find(query).toArray()
@@ -41,6 +42,12 @@ async function run() {
             const query = {category_id:(id)}
             const category = await categoryCollection.find(query).toArray();
             res.send(category);
+        })
+        //boooking items saved
+        app.post('/bookings', async(req, res) => {
+          const bookings = req.body;
+          const result = await bookingsCollection.insertOne(bookings)
+          res.send(result);
         })
 
         app.post('/users', async(req, res) => {
