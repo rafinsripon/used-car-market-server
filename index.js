@@ -169,6 +169,30 @@ async function run() {
       res.send(result);
     });
 
+    //user admin kina check
+    app.get("/users/seller/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const seller = await usersCollection.findOne(query);
+      res.send({ isSeller: seller?.role === "seller" });
+    });
+
+
+    
+    //add products
+  //   app.post('/addproducts', async(req, res) => {
+  //     const doctor = req.body;
+  //     const result = await addproductsCollection.insertOne(doctor);
+  //     res.send(result)
+  //  })
+
+    //users delete
+    app.delete("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await usersCollection.deleteOne(query);
+      res.send(result);
+    });
 
 
     console.log("Database Connected yes...");
