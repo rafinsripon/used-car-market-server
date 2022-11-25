@@ -39,6 +39,20 @@ async function run() {
         const categoryCollection = client.db('usecarmarket').collection('category')
         const bookingsCollection = client.db('usecarmarket').collection('bookings')
 
+        //verify Admin
+      //   const verifyAdmin = async(req, res, next) => {
+      //     const decodedEmail = req.decoded.email;
+      //      const query = {email: decodedEmail}
+      //      const user = await usersCollection.findOne(query);
+  
+      //      if(user?.role !== 'admin'){
+      //         return res.status(403).send({message: 'Forbidden Access'})
+      //      }
+      //      next();
+      //  }
+
+
+
         //get categories
         app.get('/categories', async(req, res) => {
             const query = {};
@@ -74,6 +88,13 @@ async function run() {
           const bookings = await bookingsCollection.find(query).toArray();
           res.send(bookings);
         })
+         //prayment single specific id
+          app.get('/bookings/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const booking = await bookingsCollection.findOne(query);
+            res.send(booking)
+         })
 
         //boooking items saved
         app.post('/bookings', async(req, res) => {
@@ -132,6 +153,14 @@ async function run() {
           const result = await usersCollection.updateOne(filter, updatedDoc, options);
           res.send(result)
        })
+
+       //users delete
+       app.delete('/users/:id', async(req, res) => {
+        const id = req.params.id;
+        const query = {_id: ObjectId(id)}
+        const result = await usersCollection.deleteOne(query)
+        res.send(result)
+    })
   
   
         console.log('Database Connected yes...')
