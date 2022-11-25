@@ -178,13 +178,6 @@ async function run() {
     });
 
 
-    
-    //add products
-  //   app.post('/addproducts', async(req, res) => {
-  //     const doctor = req.body;
-  //     const result = await addproductsCollection.insertOne(doctor);
-  //     res.send(result)
-  //  })
 
     //users delete
     app.delete("/users/:id", async (req, res) => {
