@@ -19,21 +19,6 @@ const client = new MongoClient(uri, {
   serverApi: ServerApiVersion.v1,
 });
 
-// function verifyJWT(req, res, next) {
-//   console.log('token', req.headers.authorization)
-//   const authHeader = req.headers.authorization;
-//   if(!authHeader){
-//       return res.status(401).send('unauthorize access');
-//   }
-//   const token = authHeader.split(' ')[1];
-//   jwt.verify(token, process.env.ACCESS_SECRET_TOKEN, function(err, decoded){
-//       if(err){
-//           return res.status(403).send({message: 'Forbidden Access'})
-//       }
-//       req.decoded = decoded;
-//       next();
-//   })
-// }
 
 async function run() {
   try {
@@ -54,7 +39,6 @@ async function run() {
       res.send(categories);
     });
 
-
     //all category
     app.get("/category", async (req, res) => {
       const query = {};
@@ -65,6 +49,14 @@ async function run() {
     app.post("/category", async (req, res) => {
       const caregory = req.body;
       const result = await categoryCollection.insertOne(caregory);
+      res.send(result);
+    });
+
+
+    app.delete("/category/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await categoryCollection.deleteOne(query);
       res.send(result);
     });
 
