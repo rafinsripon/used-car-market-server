@@ -46,17 +46,6 @@ async function run() {
     const paymentsCollection = client.db("usecarmarket").collection("payments");
     const addproductsCollection = client.db("usecarmarket").collection("addproducts");
 
-    //verify Admin
-    //   const verifyAdmin = async(req, res, next) => {
-    //     const decodedEmail = req.decoded.email;
-    //      const query = {email: decodedEmail}
-    //      const user = await usersCollection.findOne(query);
-
-    //      if(user?.role !== 'admin'){
-    //         return res.status(403).send({message: 'Forbidden Access'})
-    //      }
-    //      next();
-    //  }
 
     //get categories
     app.get("/categories", async (req, res) => {
