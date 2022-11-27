@@ -95,7 +95,7 @@ async function run() {
     });
 
         //advertise data
-        app.post('/advertise', async(req,res) => {
+        app.post('/advertise', async(req, res) => {
           const query = req.body;
           const result = await advetiseCollection.insertOne(query);
           res.send(result)
@@ -105,7 +105,6 @@ async function run() {
           const advertise = await advetiseCollection.find(query).toArray()
           res.send(advertise)
         })
-    
         
     //---------jwt token----------//
     //jwt token access
@@ -127,7 +126,7 @@ async function run() {
       res.send(users);
     });
 
-    //user admin kina check
+    //sellel check
     app.get("/users/admin/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email };
@@ -160,12 +159,39 @@ async function run() {
       res.send(result);
     });
 
+    //make make verify
+    app.patch("/users/verify/:id", async(req, res) => {
+      const id = req.params.id;
+      const user = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updatedDoc = {
+        $set: {
+          verify: user.verify
+        },
+      };
+      const result = await usersCollection.updateOne(
+        filter,
+        updatedDoc,
+        options
+      );
+      res.send(result);
+    })
+
     //user admin kina check
     app.get("/users/seller/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email };
       const seller = await usersCollection.findOne(query);
       res.send({ isSeller: seller?.role === "seller" });
+    });
+
+    //user user
+    app.get("/users/user/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const user = await usersCollection.findOne(query);
+      res.send({ isUser: user?.role === "user" });
     });
 
 
