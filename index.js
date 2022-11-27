@@ -28,9 +28,7 @@ async function run() {
       .collection("categories");
     const categoryCollection = client.db("usecarmarket").collection("category");
     const bookingsCollection = client.db("usecarmarket").collection("bookings");
-    const paymentsCollection = client.db("usecarmarket").collection("payments");
-    const addproductsCollection = client.db("usecarmarket").collection("addproducts");
-
+    const advetiseCollection = client.db("usecarmarket").collection("advertise")
 
     //get categories
     app.get("/categories", async (req, res) => {
@@ -96,7 +94,19 @@ async function run() {
       res.send(result);
     });
 
+        //advertise data
+        app.post('/advertise', async(req,res) => {
+          const query = req.body;
+          const result = await advetiseCollection.insertOne(query);
+          res.send(result)
+        })
+        app.get('/advertise', async(req, res) => {
+          const query = {}
+          const advertise = await advetiseCollection.find(query).toArray()
+          res.send(advertise)
+        })
     
+        
     //---------jwt token----------//
     //jwt token access
     app.get('/jwt', async(req, res) => {
