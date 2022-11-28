@@ -4,8 +4,6 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const jwt = require("jsonwebtoken");
 const app = express();
 const port = process.env.PORT || 5000;
-const stripe = require("stripe")(process.env.STRIPE_SECRET);
-
 require("dotenv").config();
 
 // middlewares
@@ -79,6 +77,7 @@ async function run() {
       const bookings = await bookingsCollection.find(query).toArray();
       res.send(bookings);
     });
+
     //prayment single specific id
     app.get("/bookings/:id", async (req, res) => {
       const id = req.params.id;
@@ -193,7 +192,6 @@ async function run() {
       const user = await usersCollection.findOne(query);
       res.send({ isUser: user?.role === "user" });
     });
-
 
 
     //users delete
